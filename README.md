@@ -2,6 +2,7 @@
 
 # Analisis
 1. Analisis Dataset
+
 a. Apakah dataset cukup besar untuk CNN from scratch?
 Dataset CIFAR-10 yang digunakan hanya 700 gambar training. Ukuran ini terlalu kecil untuk CNN from scratch yang optimal — idealnya diperlukan minimal 5.000–10.000 gambar per kelas. Dengan data sekecil ini, model berisiko tinggi mengalami overfitting.
 
@@ -18,6 +19,7 @@ e. Pengaruh kualitas dataset
 CNN from scratch sangat bergantung pada kuantitas dan kualitas data — dengan hanya 700 sampel, model cenderung underfit atau overfit. Transfer Learning lebih robust terhadap dataset kecil karena fitur pretrained sudah kaya.
 
 2. Analisis Performa Model
+   
 a. Model dengan performa terbaik
 Transfer Learning (MobileNetV2) menghasilkan akurasi testing yang lebih tinggi dengan epoch lebih sedikit (5 vs 10). Hal ini menunjukkan keunggulan pretrained features untuk dataset berukuran kecil.
 
@@ -34,6 +36,7 @@ e. Hubungan jumlah data dan performa
 CNN from scratch sangat sensitif terhadap jumlah data. Transfer Learning mampu menghasilkan performa baik bahkan dengan data terbatas karena memanfaatkan pengetahuan dari ImageNet (1,2 juta gambar).
 
 3. Analisis Pemilihan Pendekatan
+   
 Kapan menggunakan CNN from scratch?
 
 Dataset sangat besar (>100.000 gambar per kelas)
@@ -49,6 +52,7 @@ Diperlukan prototipe cepat
 Akurasi tinggi menjadi prioritas
 
 4. Studi Kasus Pengambilan Keputusan
+   
 Skenario 1 – Klinik dengan 300 gambar medis
 Pilihan: Transfer Learning (Feature Extraction)
 Dengan hanya 300 gambar, CNN from scratch hampir pasti mengalami overfitting parah dan tidak dapat menangkap pola yang bermakna. Transfer Learning dengan model seperti MobileNetV2 atau ResNet yang di-freeze memungkinkan classifier baru dilatih dengan data minimal namun tetap memanfaatkan fitur visual kaya dari ImageNet. Untuk domain medis, fine-tuning pada beberapa layer terakhir juga bisa dilakukan secara hati-hati untuk adaptasi domain.
@@ -65,7 +69,8 @@ Skenario 4 – Dataset besar, GPU memadai, domain sangat spesifik
 Pilihan: Transfer Learning + Full Fine-tuning (bukan from scratch murni)
 Meskipun punya data dan komputasi besar, memulai dari pretrained model tetap lebih efisien — konvergensi lebih cepat 3–10× dibanding random initialization. Full fine-tuning semua layer pada pretrained model dengan data besar justru memberikan hasil terbaik (pendekatan yang digunakan oleh model SOTA seperti EfficientNet pada ImageNet).
 
-Refleksi Pribadi
+# Refleksi Pribadi
+
 1. Tantangan terbesar
 Memahami pipeline tf.data untuk Transfer Learning — khususnya preprocessing yang berbeda per model (MobileNetV2 perlu range [-1,1], bukan [0,1] seperti CNN biasa). Kesalahan ini tidak selalu terlihat dari error message, namun berdampak signifikan pada akurasi.
 
